@@ -1,1 +1,37 @@
-Test
+<!--
+   Muestra el botón Acceder con Google
+   https://developers.google.com/identity/gsi/web/guides/display-button?hl=es#html
+-->
+
+<html>
+
+<body>
+   <script src="https://accounts.google.com/gsi/client" async defer></script>
+   <div id="buttonDiv"></div>
+   <button id="signout_button" class="g_id_signout">Sign Out</button>
+   <script>
+      function handleCredentialResponse(response) {
+         console.log("Encoded JWT ID token: " + response.credential);
+      }
+
+      window.onload = function () {
+         google.accounts.id.initialize({
+            client_id: "231104193562-jr49orvr3rd8sebmp0bmejfus9qpfsgf.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+         });
+
+         google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+         );
+
+         google.accounts.id.prompt(); // also display the One Tap dialog
+      }
+
+      const button = document.getElementById('signout_button');
+      button.addEventListener("click", () => { google.accounts.id.disableAutoSelect(); })
+   </script>
+
+</body>
+
+</html>
